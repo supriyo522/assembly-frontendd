@@ -1,17 +1,19 @@
-import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
-import FormComponent from './FormComponent'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import FormComponent from './FormComponent';
+import AdminPanel from './AdminPanel';
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
-    <>
-      <FormComponent/>
-    </>
-  )
+    <Router>
+      <nav>
+        <Link to="/">Form</Link> | <Link to="/admin">Admin Panel</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<FormComponent />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

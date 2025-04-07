@@ -20,7 +20,13 @@ const FormComponent = () => {
 
   const handleResponseChange = (index, value) => {
     const updated = [...formData.responses];
-    updated[index] = value === 'yes';
+    if (value === 'yes') {
+      updated[index] = true;
+    } else if (value === 'no') {
+      updated[index] = false;
+    } else {
+      updated[index] = null; // "I don't know"
+    }
     setFormData({ ...formData, responses: updated });
   };
 
@@ -52,11 +58,13 @@ const FormComponent = () => {
           required
         >
           <option value="">Select Assembly Poll</option>
-          <option value="Khardah">Khardah</option>
-          <option value="Panihati">Panihati</option>
-          <option value="Kamarhati">Kamarhati</option>
-          <option value="North Dumdum">North Dumdum</option>
-          <option value="Rajarhat Gapalpur">Rajarhat Gapalpur</option>
+          <option value="Khardah">Khardah-109</option>
+          <option value="Panihati">Panihati-111</option>
+          <option value="Kamarhati">Kamarhati-112</option>
+          <option value="Baranagar">Baranagar-113</option>
+          <option value="North Dumdum">North Dumdum-110</option>
+          <option value="Dumdum">Dumdum-114</option>
+          <option value="Rajarhat Gapalpur">Rajarhat Gapalpur-117</option>
         </select>
 
         <label>Word No:</label>
@@ -84,7 +92,7 @@ const FormComponent = () => {
                 name={`question-${idx}`}
                 value="yes"
                 checked={formData.responses[idx] === true}
-                onChange={(e) => handleResponseChange(idx, e.target.value)}
+                onChange={() => handleResponseChange(idx, 'yes')}
                 required
               /> Yes
             </label>
@@ -94,8 +102,17 @@ const FormComponent = () => {
                 name={`question-${idx}`}
                 value="no"
                 checked={formData.responses[idx] === false}
-                onChange={(e) => handleResponseChange(idx, e.target.value)}
+                onChange={() => handleResponseChange(idx, 'no')}
               /> No
+            </label>
+            <label>
+              <input
+                type="radio"
+                name={`question-${idx}`}
+                value="dontknow"
+                checked={formData.responses[idx] === null}
+                onChange={() => handleResponseChange(idx, 'dontknow')}
+              /> I don't know
             </label>
           </div>
         ))}
