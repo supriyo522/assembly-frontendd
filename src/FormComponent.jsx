@@ -3,11 +3,11 @@ import axios from 'axios';
 import './FormComponent.css'; // Import the CSS file
 
 const questions = [
-  'Do you like coding?',
-  'Do you use Git?',
-  'Do you enjoy React?',
-  'Have you used Node.js?',
-  'Do you prefer dark mode?'
+  'পশ্চিমবঙ্গে শিক্ষা, স্বাস্থ্য, খাদ্য ব্যবস্থা ভেঙে পড়েছে?',
+  'আর জি কর কাণ্ডে পশ্চিমবঙ্গ সরকার তথ্য প্রমাণ লোপাট করেছে?',
+  'তৃণমূল কংগ্রেস একটি দূর্নীতিগ্রস্ত রাজনৈতিক দল?',
+  'আসন্ন ২০২৬ এ পশ্চিমবঙ্গ বিধানসভা নির্বাচনে বিজেপিকে একটা সুযোগ দেওয়া উচিত ?',
+//   'Do you prefer dark mode?'
 ];
 
 const FormComponent = () => {
@@ -94,7 +94,7 @@ const FormComponent = () => {
                 checked={formData.responses[idx] === true}
                 onChange={() => handleResponseChange(idx, 'yes')}
                 required
-              /> Yes
+              /> হাঁ
             </label>
             <label>
               <input
@@ -103,7 +103,7 @@ const FormComponent = () => {
                 value="no"
                 checked={formData.responses[idx] === false}
                 onChange={() => handleResponseChange(idx, 'no')}
-              /> No
+              /> না
             </label>
             <label>
               <input
@@ -112,7 +112,7 @@ const FormComponent = () => {
                 value="dontknow"
                 checked={formData.responses[idx] === null}
                 onChange={() => handleResponseChange(idx, 'dontknow')}
-              /> I don't know
+              />  জানিনা
             </label>
           </div>
         ))}

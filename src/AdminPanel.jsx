@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './AdminPanel.css'; // Optional: Create a CSS file for styling
+import './AdminPanel.css';
 
 const AdminPanel = () => {
   const [data, setData] = useState([]);
@@ -71,9 +71,9 @@ const AdminPanel = () => {
               <td>{item.boothNo}</td>
               <td>
                 {item.responses.map((r, i) =>
-                  r === true ? `Q${i + 1}: Yes | ` :
-                  r === false ? `Q${i + 1}: No | ` :
-                  `Q${i + 1}: I don't know | `
+                  r === true ? `Q${i + 1}: হাঁ  | ` :
+                  r === false ? `Q${i + 1}: না | ` :
+                  `Q${i + 1}: জানিনা | `
                 )}
               </td>
               <td>{new Date(item.createdAt).toLocaleString()}</td>
@@ -81,6 +81,48 @@ const AdminPanel = () => {
           ))}
         </tbody>
       </table>
+
+      {filter.assemblyPoll && (
+        <div className="summary-table-container">
+          <h3>Response Summary for: {filter.assemblyPoll}</h3>
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>হাঁ %</th>
+                <th>না %</th>
+                <th>জানিনা %</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[0, 1, 2, 3, 4].map((qIndex) => {
+                const total = filtered.length;
+                let yes = 0, no = 0, dontKnow = 0;
+
+                filtered.forEach((entry) => {
+                  const val = entry.responses[qIndex];
+                  if (val === true) yes++;
+                  else if (val === false) no++;
+                  else dontKnow++;
+                });
+
+                const yesPercent = total ? ((yes / total) * 100).toFixed(1) : 0;
+                const noPercent = total ? ((no / total) * 100).toFixed(1) : 0;
+                const dontKnowPercent = total ? ((dontKnow / total) * 100).toFixed(1) : 0;
+
+                return (
+                  <tr key={qIndex}>
+                    <td>Q{qIndex + 1}</td>
+                    <td>{yesPercent}%</td>
+                    <td>{noPercent}%</td>
+                    <td>{dontKnowPercent}%</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
