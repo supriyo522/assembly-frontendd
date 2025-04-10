@@ -71,7 +71,7 @@ const AdminPanel = () => {
               <td>{item.boothNo}</td>
               <td>
                 {item.responses.map((r, i) =>
-                  r === true ? `Q${i + 1}: হাঁ  | ` :
+                  r === true ? `Q${i + 1}: হাঁ | ` :
                   r === false ? `Q${i + 1}: না | ` :
                   `Q${i + 1}: জানিনা | `
                 )}

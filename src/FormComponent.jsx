@@ -3,11 +3,10 @@ import axios from 'axios';
 import './FormComponent.css'; // Import the CSS file
 
 const questions = [
-  'পশ্চিমবঙ্গে শিক্ষা, স্বাস্থ্য, খাদ্য ব্যবস্থা ভেঙে পড়েছে?',
+'পশ্চিমবঙ্গে শিক্ষা, স্বাস্থ্য, খাদ্য ব্যবস্থা ভেঙে পড়েছে?',
   'আর জি কর কাণ্ডে পশ্চিমবঙ্গ সরকার তথ্য প্রমাণ লোপাট করেছে?',
   'তৃণমূল কংগ্রেস একটি দূর্নীতিগ্রস্ত রাজনৈতিক দল?',
-  'আসন্ন ২০২৬ এ পশ্চিমবঙ্গ বিধানসভা নির্বাচনে বিজেপিকে একটা সুযোগ দেওয়া উচিত ?',
-//   'Do you prefer dark mode?'
+  'আসন্ন ২০২৬ এ পশ্চিমবঙ্গ বিধানসভা নির্বাচনে বিজেপিকে একটা সুযোগ দেওয়া উচিত ?'
 ];
 
 const FormComponent = () => {
@@ -112,7 +111,7 @@ const FormComponent = () => {
                 value="dontknow"
                 checked={formData.responses[idx] === null}
                 onChange={() => handleResponseChange(idx, 'dontknow')}
-              />  জানিনা
+              /> জানিনা
             </label>
           </div>
         ))}
