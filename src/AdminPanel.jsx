@@ -2,23 +2,33 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AdminPanel.css';
 
+const API_URL = 'https://assembly-backend-7qs4.onrender.com/api/form';
+
 const AdminPanel = () => {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [filter, setFilter] = useState({ assemblyPoll: '', wordNo: '', boothNo: '' });
+  const [filter, setFilter] = useState({ assemblyPoll: '', wordNo: '' });
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({
+    assemblyPoll: '',
+    wordNo: '',
+    boothNo: '',
+    responses: []
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('https://assembly-backend-7qs4.onrender.com/api/form/all');
-        setData(res.data);
-        setFiltered(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/all`);
+      setData(res.data);
+      setFiltered(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleFilterChange = (e) => {
     const updated = { ...filter, [e.target.name]: e.target.value };
@@ -26,10 +36,50 @@ const AdminPanel = () => {
 
     const filteredData = data.filter((item) =>
       (!updated.assemblyPoll || item.assemblyPoll === updated.assemblyPoll) &&
-      (!updated.wordNo || item.wordNo === updated.wordNo) &&
-      (!updated.boothNo || item.boothNo === updated.boothNo)
+      (!updated.wordNo || item.wordNo === updated.wordNo)
     );
     setFiltered(filteredData);
+  };
+
+  const handleEditClick = (item) => {
+    setEditingId(item._id);
+    setEditForm({
+      assemblyPoll: item.assemblyPoll,
+      wordNo: item.wordNo,
+      boothNo: item.boothNo || '',
+      responses: item.responses
+    });
+  };
+
+  const handleEditChange = (e, index = null) => {
+    if (e.target.name === 'responses' && index !== null) {
+      const updatedResponses = [...editForm.responses];
+      updatedResponses[index] = e.target.value === 'true' ? true : e.target.value === 'false' ? false : null;
+      setEditForm({ ...editForm, responses: updatedResponses });
+    } else {
+      setEditForm({ ...editForm, [e.target.name]: e.target.value });
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await axios.put(`${API_URL}/update/${editingId}`, editForm);
+      setEditingId(null);
+      fetchData();
+    } catch (err) {
+      console.error('Update failed:', err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this entry?')) {
+      try {
+        await axios.delete(`${API_URL}/delete/${id}`);
+        fetchData();
+      } catch (err) {
+        console.error('Delete failed:', err);
+      }
+    }
   };
 
   return (
@@ -48,7 +98,6 @@ const AdminPanel = () => {
           <option value="Rajarhat Gapalpur">Rajarhat Gapalpur-117</option>
         </select>
         <input type="text" name="wordNo" placeholder="Word No" value={filter.wordNo} onChange={handleFilterChange} />
-        <input type="text" name="boothNo" placeholder="Booth No" value={filter.boothNo} onChange={handleFilterChange} />
       </div>
 
       <table className="admin-table">
@@ -57,9 +106,9 @@ const AdminPanel = () => {
             <th>#</th>
             <th>Assembly</th>
             <th>Word No</th>
-            <th>Booth No</th>
             <th>Responses</th>
             <th>Time</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +117,6 @@ const AdminPanel = () => {
               <td>{idx + 1}</td>
               <td>{item.assemblyPoll}</td>
               <td>{item.wordNo}</td>
-              <td>{item.boothNo}</td>
               <td>
                 {item.responses.map((r, i) =>
                   r === true ? `Q${i + 1}: হাঁ | ` :
@@ -77,10 +125,59 @@ const AdminPanel = () => {
                 )}
               </td>
               <td>{new Date(item.createdAt).toLocaleString()}</td>
+              <td>
+                <button onClick={() => handleEditClick(item)}>Edit</button>
+                <button onClick={() => handleDelete(item._id)}>Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {editingId && (
+        <div className="edit-form">
+          <h3>Edit Entry</h3>
+          <input
+            type="text"
+            name="assemblyPoll"
+            value={editForm.assemblyPoll}
+            onChange={handleEditChange}
+            placeholder="Assembly"
+          />
+          <input
+            type="text"
+            name="wordNo"
+            value={editForm.wordNo}
+            onChange={handleEditChange}
+            placeholder="Word No"
+          />
+          <input
+            type="text"
+            name="boothNo"
+            value={editForm.boothNo}
+            onChange={handleEditChange}
+            placeholder="Booth No"
+          />
+          <div>
+            {editForm.responses.map((resp, i) => (
+              <div key={i}>
+                <label>Q{i + 1}:</label>
+                <select
+                  name="responses"
+                  value={resp === true ? 'true' : resp === false ? 'false' : 'null'}
+                  onChange={(e) => handleEditChange(e, i)}
+                >
+                  <option value="true">হাঁ</option>
+                  <option value="false">না</option>
+                  <option value="null">জানিনা</option>
+                </select>
+              </div>
+            ))}
+          </div>
+          <button onClick={handleUpdate}>Update</button>
+          <button onClick={() => setEditingId(null)}>Cancel</button>
+        </div>
+      )}
 
       {filter.assemblyPoll && (
         <div className="summary-table-container">

@@ -13,8 +13,8 @@ const FormComponent = () => {
   const [formData, setFormData] = useState({
     assemblyPoll: '',
     wordNo: '',
-    boothNo: '',
-    responses: [null, null, null, null, null],
+    // boothNo: '',
+    responses: [null, null, null, null],
   });
 
   const handleResponseChange = (index, value) => {
@@ -37,8 +37,8 @@ const FormComponent = () => {
       setFormData({
         assemblyPoll: '',
         wordNo: '',
-        boothNo: '',
-        responses: [null, null, null, null, null],
+        // boothNo: '',
+        responses: [null, null, null, null],
       });
     } catch (error) {
       alert('Error submitting form');
@@ -74,13 +74,13 @@ const FormComponent = () => {
           required
         />
 
-        <label>Booth No:</label>
+        {/* <label>Booth No:</label>
         <input
           type="text"
           value={formData.boothNo}
           onChange={(e) => setFormData({ ...formData, boothNo: e.target.value })}
           required
-        />
+        /> */}
 
         {questions.map((question, idx) => (
           <div key={idx} className="radio-group">
