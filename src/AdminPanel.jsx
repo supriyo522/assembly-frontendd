@@ -207,7 +207,7 @@ const AdminPanel = () => {
               </tr>
             </thead>
             <tbody>
-              {[0, 1, 2, 3, 4].map((qIndex) => {
+              {[0, 1, 2, 3].map((qIndex) => {
                 const total = filtered.length;
                 let yes = 0, no = 0, dontKnow = 0;
 
