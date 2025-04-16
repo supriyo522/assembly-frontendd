@@ -82,6 +82,17 @@ const AdminPanel = () => {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (window.confirm('Are you sure you want to delete ALL entries? This action cannot be undone.')) {
+      try {
+        await axios.delete(`${API_URL}/delete-all`);
+        fetchData();
+      } catch (err) {
+        console.error('Delete All failed:', err);
+      }
+    }
+  };
+
   return (
     <div className="admin-panel">
       <h2>Admin Panel - Submitted Responses</h2>
@@ -99,6 +110,10 @@ const AdminPanel = () => {
         </select>
         <input type="text" name="wordNo" placeholder="Word No" value={filter.wordNo} onChange={handleFilterChange} />
       </div>
+
+      <button className="delete-all-btn" onClick={handleDeleteAll}>
+        Delete All Entries
+      </button>
 
       <table className="admin-table">
         <thead>
