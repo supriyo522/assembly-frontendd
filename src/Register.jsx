@@ -23,7 +23,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const response = await axios.post('https://assembly-backend-7qs4.onrender.com/api/auth/register', formData);
       if (response.status === 201) {
         setSuccess(response.data.message || 'Registration successful!');
         setTimeout(() => navigate('/admin'), 2000);
