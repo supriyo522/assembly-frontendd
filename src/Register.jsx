@@ -23,7 +23,7 @@ const Register = () => {
       const timer = setTimeout(() => {
         setError('');
         setSuccess('');
-      }, 3000); // Clear after 3 seconds
+      }, []); // Clear after 3 seconds
 
       return () => clearTimeout(timer); // Cleanup
     }
