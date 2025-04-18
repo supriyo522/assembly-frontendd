@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Register.css'; // Optional: your custom styles
@@ -17,16 +17,31 @@ const Register = () => {
     setSuccess('');
   };
 
+  // Clear error/success messages after 3 seconds
+  useEffect(() => {
+    if (error || success) {
+      const timer = setTimeout(() => {
+        setError('');
+        setSuccess('');
+      }, 3000); // Clear after 3 seconds
+
+      return () => clearTimeout(timer); // Cleanup
+    }
+  }, [error, success]);
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.post('https://assembly-backend-7qs4.onrender.com/api/auth/register', formData);
+      const response = await axios.post(
+        'https://assembly-backend-7qs4.onrender.com/api/auth/register',
+        formData
+      );
       if (response.status === 201) {
         setSuccess(response.data.message || 'Registration successful!');
-        setTimeout(() => navigate('/admin'), 2000);
+        setTimeout(() => navigate('/admin'), 1000); // Faster redirect
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Something went wrong!');
