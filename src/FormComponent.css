@@ -71,4 +71,12 @@ body {
   button:hover {
     background-color: #1d4ed8;
   }
+  .signature {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: #6b7280; /* subtle gray */
+    font-style: italic;
+  }
   

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './FormComponent.css'; // Import the CSS file
 
+
 const questions = [
 'পশ্চিমবঙ্গে শিক্ষা, স্বাস্থ্য, খাদ্য ব্যবস্থা ভেঙে পড়েছে',
   'আর জি কর কাণ্ডে পশ্চিমবঙ্গ সরকার তথ্য প্রমাণ লোপাট করেছে',
@@ -17,6 +18,9 @@ const FormComponent = () => {
     responses: [null, null, null, null],
   });
 
+
+  const [loading, setLoading] = useState(false);
+
   const handleResponseChange = (index, value) => {
     const updated = [...formData.responses];
     if (value === 'yes') {
@@ -31,24 +35,27 @@ const FormComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await axios.post('https://assembly-backend-7qs4.onrender.com/api/form/submit', formData);
       alert('Form submitted successfully!');
       setFormData({
         assemblyPoll: '',
         wordNo: '',
-        // boothNo: '',
         responses: [null, null, null, null],
       });
     } catch (error) {
       alert('Error submitting form');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="form-container">
-      <h2>Survey Form</h2>
+      <h2>
+      রাজনৈতিক সমীক্ষা</h2>
       <form onSubmit={handleSubmit}>
         <label>Assembly Name:</label>
         <select
@@ -116,8 +123,12 @@ const FormComponent = () => {
           </div>
         ))}
 
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={loading}>
+  {loading ? 'Submitting...' : 'Submit'}
+</button>
+
       </form>
+      <div className="signature">শেখর সেনগুপ্ত</div>
     </div>
   );
 };
