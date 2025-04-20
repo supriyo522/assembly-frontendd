@@ -100,7 +100,7 @@ const FormComponent = () => {
                 checked={formData.responses[idx] === true}
                 onChange={() => handleResponseChange(idx, 'yes')}
                 required
-              /> হাঁ
+              /> হ্যাঁ
             </label>
             <label>
               <input
