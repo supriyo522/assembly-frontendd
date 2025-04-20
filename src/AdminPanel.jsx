@@ -134,7 +134,7 @@ const AdminPanel = () => {
               <td>{item.wordNo}</td>
               <td>
                 {item.responses.map((r, i) =>
-                  r === true ? `Q${i + 1}:  হাঁ  | ` :
+                  r === true ? `Q${i + 1}:  হ্যাঁ  | ` :
                   r === false ? `Q${i + 1}: না | ` :
                   `Q${i + 1}: জানিনা  | `
                 )}
@@ -182,7 +182,7 @@ const AdminPanel = () => {
                   value={resp === true ? 'true' : resp === false ? 'false' : 'null'}
                   onChange={(e) => handleEditChange(e, i)}
                 >
-                  <option value="true">হাঁ</option>
+                  <option value="true">হ্যাঁ</option>
                   <option value="false">না</option>
                   <option value="null">জানিনা</option>
                 </select>
@@ -201,7 +201,7 @@ const AdminPanel = () => {
             <thead>
               <tr>
                 <th>Question</th>
-                <th>হাঁ %</th>
+                <th>হ্যাঁ %</th>
                 <th>না %</th>
                 <th>জানিনা %</th>
               </tr>
