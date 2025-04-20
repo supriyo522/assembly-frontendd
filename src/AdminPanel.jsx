@@ -8,6 +8,7 @@ const AdminPanel = () => {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState({ assemblyPoll: '', wordNo: '' });
+  const [wordNoOptions, setWordNoOptions] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({
     assemblyPoll: '',
@@ -25,6 +26,10 @@ const AdminPanel = () => {
       const res = await axios.get(`${API_URL}/all`);
       setData(res.data);
       setFiltered(res.data);
+
+      // Extract unique wordNo values and sort
+      const uniqueWordNos = [...new Set(res.data.map(item => item.wordNo))].filter(Boolean);
+      setWordNoOptions(uniqueWordNos.sort());
     } catch (err) {
       console.error(err);
     }
@@ -108,7 +113,13 @@ const AdminPanel = () => {
           <option value="Dumdum">Dumdum-114</option>
           <option value="Rajarhat Gapalpur">Rajarhat Gapalpur-117</option>
         </select>
-        <input type="text" name="wordNo" placeholder="Word No" value={filter.wordNo} onChange={handleFilterChange} />
+
+        <select name="wordNo" value={filter.wordNo} onChange={handleFilterChange}>
+          <option value="">All Word Numbers</option>
+          {wordNoOptions.map((word, index) => (
+            <option key={index} value={word}>{word}</option>
+          ))}
+        </select>
       </div>
 
       <button className="delete-all-btn" onClick={handleDeleteAll}>
@@ -134,9 +145,9 @@ const AdminPanel = () => {
               <td>{item.wordNo}</td>
               <td>
                 {item.responses.map((r, i) =>
-                  r === true ? `Q${i + 1}:  হ্যাঁ  | ` :
+                  r === true ? `Q${i + 1}: হ্যাঁ | ` :
                   r === false ? `Q${i + 1}: না | ` :
-                  `Q${i + 1}: জানিনা  | `
+                  `Q${i + 1}: জানিনা | `
                 )}
               </td>
               <td>{new Date(item.createdAt).toLocaleString()}</td>
