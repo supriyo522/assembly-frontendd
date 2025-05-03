@@ -14,7 +14,7 @@ const FormComponent = () => {
   const [formData, setFormData] = useState({
     assemblyPoll: '',
     wordNo: '',
-    // boothNo: '',
+    boothNo: '',
     responses: [null, null, null, null],
   });
 
@@ -81,13 +81,13 @@ const FormComponent = () => {
           required
         />
 
-        {/* <label>Booth No:</label>
+        <label>Booth No:</label>
         <input
           type="text"
           value={formData.boothNo}
           onChange={(e) => setFormData({ ...formData, boothNo: e.target.value })}
           required
-        /> */}
+        />
 
         {questions.map((question, idx) => (
           <div key={idx} className="radio-group">
