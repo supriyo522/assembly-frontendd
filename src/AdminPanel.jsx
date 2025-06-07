@@ -307,7 +307,7 @@ const AdminPanel = () => {
     setEditForm({
       assemblyPoll: item.assemblyPoll,
       wordNo: item.wordNo,
-      boothNo: item.boothNo,
+      boothNo: item.boothNo || '',
       responses: item.responses
     });
   };
