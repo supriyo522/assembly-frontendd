@@ -42,6 +42,7 @@ const FormComponent = () => {
       setFormData({
         assemblyPoll: '',
         wordNo: '',
+        boothNo: '',
         responses: [null, null, null, null],
       });
     } catch (error) {
