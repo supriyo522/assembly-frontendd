@@ -254,7 +254,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AdminPanel.css';
 
-const API_URL = 'https://assembly-backend-7qs4.onrender.com/api/form';
+const API_URL = 'http://localhost:5000/api/form';
 
 const AdminPanel = () => {
   const [data, setData] = useState([]);
@@ -267,6 +267,7 @@ const AdminPanel = () => {
     assemblyPoll: '',
     wordNo: '',
     boothNo: '',
+    phoneNumber: '',
     responses: []
   });
 
@@ -308,6 +309,7 @@ const AdminPanel = () => {
       assemblyPoll: item.assemblyPoll,
       wordNo: item.wordNo,
       boothNo: item.boothNo || '',
+      phoneNumber:item.phoneNumber || '',
       responses: item.responses
     });
   };
@@ -398,6 +400,7 @@ const AdminPanel = () => {
             <th>Booth No</th>
             <th>Responses</th>
             <th>Time</th>
+            <th>Phone Number</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -416,6 +419,7 @@ const AdminPanel = () => {
                 )}
               </td>
               <td>{new Date(item.createdAt).toLocaleString()}</td>
+              <td>{item.phoneNumber || '-'}</td> {/* ✅ New column */}
               <td>
                 <button onClick={() => handleEditClick(item)}>Edit</button>
                 <button onClick={() => handleDelete(item._id)}>Delete</button>

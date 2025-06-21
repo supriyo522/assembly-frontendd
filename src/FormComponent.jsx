@@ -5,8 +5,8 @@ import './FormComponent.css'; // Import the CSS file
 
 const questions = [
 'পশ্চিমবঙ্গে শিক্ষা, স্বাস্থ্য, খাদ্য ব্যবস্থা ভেঙে পড়েছে',
-  'আর জি কর কাণ্ডে পশ্চিমবঙ্গ সরকার তথ্য প্রমাণ লোপাট করেছে',
-  'তৃণমূল কংগ্রেস একটি দূর্নীতিগ্রস্ত রাজনৈতিক দল',
+  'বর্তমান সরকারের অধীনে হিন্দরা অসুরক্ষিত',
+  '২০২৬ এ বর্তমান পশ্চিমবঙ্গ সরকারের পরিবর্তন দরকার',
   'আসন্ন ২০২৬ এ পশ্চিমবঙ্গ বিধানসভা নির্বাচনে বিজেপিকে একটা সুযোগ দেওয়া উচিত'
 ];
 
@@ -15,6 +15,7 @@ const FormComponent = () => {
     assemblyPoll: '',
     wordNo: '',
     boothNo: '',
+    phoneNumber: '',
     responses: [null, null, null, null],
   });
 
@@ -37,12 +38,13 @@ const FormComponent = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('https://assembly-backend-7qs4.onrender.com/api/form/submit', formData);
+      await axios.post('http://localhost:5000/api/form/submit', formData);
       alert('Form submitted successfully!');
       setFormData({
         assemblyPoll: '',
         wordNo: '',
         boothNo: '',
+        phoneNumber: '',
         responses: [null, null, null, null],
       });
     } catch (error) {
@@ -123,6 +125,16 @@ const FormComponent = () => {
             </label>
           </div>
         ))}
+
+        <label>Phone Number:</label>
+<input
+  type="tel"
+  value={formData.phoneNumber}
+  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+  required
+  pattern="[0-9]{10}"
+  placeholder="Enter 10-digit phone number"
+/>
 
         <button type="submit" disabled={loading}>
   {loading ? 'Submitting...' : 'Submit'}
