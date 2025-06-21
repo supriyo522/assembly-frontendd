@@ -254,7 +254,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AdminPanel.css';
 
-const API_URL = 'http://localhost:5000/api/form';
+const API_URL = 'https://assembly-backend-7qs4.onrender.com/api/form';
 
 const AdminPanel = () => {
   const [data, setData] = useState([]);
